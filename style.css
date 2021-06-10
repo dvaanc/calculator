@@ -30,8 +30,12 @@ body {
   height: 30%;
   justify-content: flex-end;
   align-items: flex-end;
+  overflow: hidden;
 }
 
+.output {
+  overflow-x: scroll;
+}
 .layout {
   display: flex;
   height: 70%;
@@ -95,4 +99,8 @@ body {
 .footer {
   margin-top: 50px;
   color: white;
+}
+
+.is-depressed {
+  background-color: #745fd4;
 }
