@@ -18,6 +18,7 @@ const reset = 0;
 let val1;
 let val2;
 let operation;
+let keyType;
 
 const addition = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
@@ -40,7 +41,7 @@ const operate = function(operator, a, b) {
     return multiply(a, b);
 
   case "÷":
-    return b === 0 ? Null : divide(a, b);
+    return b === 0 ? "Null, dividing by 0!" : divide(a, b);
 
   case "%":
     return modulo(a, b);
@@ -59,7 +60,7 @@ const operate = function(operator, a, b) {
     const content = key.textContent
     const display = output.textContent
       if(!action) { 
-        display === '0' ? output.textContent = content : output.textContent = display + content ;
+        display === '0' || checkOperation === true ? output.textContent = content : output.textContent = display + content ;
       }
       if(action === 'decimal') { 
         output.textContent = display + ".";
@@ -68,7 +69,7 @@ const operate = function(operator, a, b) {
       
       }
       if(action === 'all-clear') {
-        output.textContent = 0;
+        output.textContent = reset;
         val1 = 0;
         val2 = 0;
         console.log(val1, val2);
@@ -82,12 +83,14 @@ const operate = function(operator, a, b) {
           action === 'modulo' 
         ) {
           operation = content;
+          checkOperation = true;
           val1 = display;
           console.log(val1, operation);
         }
 
         if (action === 'equal') {
           val2 = display;
+      
           output.textContent = operate(operation, val1, val2);
           console.log(operate(operation, val1, val2));
         }
