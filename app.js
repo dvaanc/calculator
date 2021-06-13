@@ -1,4 +1,3 @@
-# calculator-
 
 const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.layout');
@@ -16,6 +15,9 @@ const output = document.querySelector('.output');
 // const operationsEl = document.querySelectorAll('[data-action]')
 
 const reset = 0;
+let val1;
+let val2;
+let operation;
 
 const addition = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
@@ -48,7 +50,9 @@ const operate = function(operator, a, b) {
   }
 }
 
-keys.addEventListener("click", e => {
+
+
+ keys.addEventListener("click", e => {
   if (e.target.matches('button')) {
     const key = e.target;
     const action = key.dataset.action;
@@ -58,21 +62,41 @@ keys.addEventListener("click", e => {
         display === '0' ? output.textContent = content : output.textContent = display + content ;
       }
       if(action === 'decimal') { 
-          output.textContent = display + ".";
+        output.textContent = display + ".";
       }
-      // if(
-      //   action === 'add' ||
-      //   action === 'subtraction' ||
-      //   action === 'multiply' ||
-      //   action === 'divide' ||
-      //   action === 'modulo' 
-      // ) {
-      //   key.classList.add('is-depressed');
-      //   calculator.dataset.previousKeyType = 'operator'
-      // }
-      // Array.from(key.parentNode.children).forEach(k => k.classlist.remove('is-depressed'))
+      if(action === 'pos/neg') {
+      
+      }
+      if(action === 'all-clear') {
+        output.textContent = 0;
+        val1 = 0;
+        val2 = 0;
+        console.log(val1, val2);
+      }
+      
+        if(
+          action === 'addition' ||
+          action === 'subtraction' ||
+          action === 'multiply' ||
+          action === 'divide' ||
+          action === 'modulo' 
+        ) {
+          operation = content;
+          val1 = display;
+          console.log(val1, operation);
+        }
+
+        if (action === 'equal') {
+          val2 = display;
+          output.textContent = operate(operation, val1, val2);
+          console.log(operate(operation, val1, val2));
+        }
   }
 })
+
+ 
+
+
 
 
 
