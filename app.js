@@ -2,23 +2,6 @@
 const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.layout');
 const output = document.querySelector('.output');
-// const allClearEl = document.querySelector('[data-action="all-clear"]');
-// const posNegEl = document.querySelector('[data-action="pos/neg"]');
-// const moduloEl = document.querySelector('[data-action="modulo"]');
-// const divideEl = document.querySelector('[data-action="divide"]');
-// const muliplyEl = document.querySelector('[data-action="multiply"]');
-// const subtractionEl = document.querySelector('[data-action="subtraction"]');
-// const additionEl = document.querySelector('[data-action="addition"]');
-// const floatingPointEl = document.querySelector('[data-action="floating-point"]');
-// const deleteEl = document.querySelector('[data-action="delete"]');
-// const equal = document.querySelector('[data-action="equal"]');
-// const operationsEl = document.querySelectorAll('[data-action]')
-
-const reset = 0;
-let val1;
-let val2;
-let operation;
-let keyType;
 
 const addition = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
@@ -51,7 +34,11 @@ const operate = function(operator, a, b) {
   }
 }
 
-
+let val1;
+let val2;
+let operation;
+let keyType;
+let checkOperation = false;
 
  keys.addEventListener("click", e => {
   if (e.target.matches('button')) {
@@ -59,8 +46,12 @@ const operate = function(operator, a, b) {
     const action = key.dataset.action;
     const content = key.textContent
     const display = output.textContent
+      // if(!action) { 
+      //   display === '0' || checkOperation === true ? output.textContent = content : output.textContent = display + content;
+      // }
       if(!action) { 
-        display === '0' || checkOperation === true ? output.textContent = content : output.textContent = display + content ;
+      if (output.textContent === "0" || checkOperation === true) screenReset();
+      output.textContent += content;
       }
       if(action === 'decimal') { 
         output.textContent = display + ".";
@@ -69,12 +60,15 @@ const operate = function(operator, a, b) {
       
       }
       if(action === 'all-clear') {
-        output.textContent = reset;
-        val1 = 0;
-        val2 = 0;
+        output.textContent = "0";
+        val1 = "";
+        val2 = "";
         console.log(val1, val2);
+        checkOperation = false;
       }
-      
+      if(action === "delete") {
+        output.textContent = output.textContent.toString().slice(0, -1);
+      }
         if(
           action === 'addition' ||
           action === 'subtraction' ||
@@ -82,52 +76,24 @@ const operate = function(operator, a, b) {
           action === 'divide' ||
           action === 'modulo' 
         ) {
-          operation = content;
           checkOperation = true;
+          operation = content;
           val1 = display;
           console.log(val1, operation);
         }
 
         if (action === 'equal') {
           val2 = display;
-      
+          checkOperation = true;
           output.textContent = operate(operation, val1, val2);
           console.log(operate(operation, val1, val2));
         }
   }
 })
 
- 
-
-
-
-
-
-// let displayValue;
-//  const display = function() {
-//   numberEl.forEach(button => {
-//     button.addEventListener("click", e => {
-//        displayValue = e.target.textContent;
-//         outputEl.textContent += displayValue;
-//     });
-//   });
-// }
-
-// const operations = function() {
-//   operationsEl.forEach(operation => {
-//     operation.addEventListener("click", e => {
-//       switch (e) {
-
-//       };
-//     });
-//   });
-// }
-
+const screenReset = function () {
+  output.textContent = "";
+  checkOperation = false;
+}
 
 console.log("hello")
-
-
-
-
-
-
