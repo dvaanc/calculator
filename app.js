@@ -59,20 +59,25 @@ let checkOperator = false;
           }
         }
       if(action === 'decimal' && !display.includes('.')) { 
-        output.textContent = display + ".";
+        output.textContent = display + '.';
       }
       if(action === 'pos/neg') {
-      
+        if(display.includes('-')) {
+          output.textContent = display.toString().substring(1, display.length);
+        } else {
+        output.textContent = '-' + display;
+        }
       }
       if(action === 'all-clear') {
         output.textContent = "0";
-        firstOperand = "";
-        secondOperand = "";
-        console.log(firstOperand, secondOperand);
+        firstOperand = null;
+        secondOperand = null;
         waitingForSecondOperand = false;
+        console.log(waitingForSecondOperand, firstOperand, secondOperand);
+        
       }
       if(action === "delete") {
-        output.textContent = output.textContent.toString().slice(0, -1);
+        output.textContent = display.toString().slice(0, -1);
       }
         if(
           action === 'addition' ||
@@ -81,6 +86,9 @@ let checkOperator = false;
           action === 'divide' ||
           action === 'modulo' 
         ) {
+          if (operator && waitingForSecondOperand) {
+
+          }
           waitingForSecondOperand = true;
           operator = content;
           firstOperand = display;
@@ -91,7 +99,7 @@ let checkOperator = false;
           secondOperand = display;
           
           output.textContent = operate(operator, firstOperand, secondOperand);
-          operator = '';
+          operator = null;
           console.log(operate(operator, firstOperand, secondOperand));
         }
   }
