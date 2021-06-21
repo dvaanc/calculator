@@ -34,11 +34,12 @@ const operate = function(operator, a, b) {
   }
 }
 
-let val1;
-let val2;
-let operation;
+let firstOperand;
+let secondOperand;
+let operator;
 let keyType;
-let checkOperation = false;
+let waitingForSecondOperand = false;
+let checkOperator = false;
 
  keys.addEventListener("click", e => {
   if (e.target.matches('button')) {
@@ -50,10 +51,14 @@ let checkOperation = false;
       //   display === '0' || checkOperation === true ? output.textContent = content : output.textContent = display + content;
       // }
       if(!action) { 
-      if (output.textContent === "0" || checkOperation === true) screenReset();
-      output.textContent += content;
-      }
-      if(action === 'decimal') { 
+        if (waitingForSecondOperand === true) {
+          output.textContent = content;
+          waitingForSecondOperand = false;
+        } else {
+        display === '0' ? output.textContent = content : output.textContent =  display + content;
+          }
+        }
+      if(action === 'decimal' && !display.includes('.')) { 
         output.textContent = display + ".";
       }
       if(action === 'pos/neg') {
@@ -61,10 +66,10 @@ let checkOperation = false;
       }
       if(action === 'all-clear') {
         output.textContent = "0";
-        val1 = "";
-        val2 = "";
-        console.log(val1, val2);
-        checkOperation = false;
+        firstOperand = "";
+        secondOperand = "";
+        console.log(firstOperand, secondOperand);
+        waitingForSecondOperand = false;
       }
       if(action === "delete") {
         output.textContent = output.textContent.toString().slice(0, -1);
@@ -76,24 +81,25 @@ let checkOperation = false;
           action === 'divide' ||
           action === 'modulo' 
         ) {
-          checkOperation = true;
-          operation = content;
-          val1 = display;
-          console.log(val1, operation);
+          waitingForSecondOperand = true;
+          operator = content;
+          firstOperand = display;
+          console.log(firstOperand, operator);
         }
 
         if (action === 'equal') {
-          val2 = display;
-          checkOperation = true;
-          output.textContent = operate(operation, val1, val2);
-          console.log(operate(operation, val1, val2));
+          secondOperand = display;
+          
+          output.textContent = operate(operator, firstOperand, secondOperand);
+          operator = '';
+          console.log(operate(operator, firstOperand, secondOperand));
         }
   }
 })
 
-const screenReset = function () {
+const screenReset = function() {
   output.textContent = "";
-  checkOperation = false;
+  checkOperator = false;
 }
 
 console.log("hello")
