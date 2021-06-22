@@ -1,14 +1,11 @@
-
 const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.layout');
 const output = document.querySelector('.output');
-
 const addition = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 const modulo = (a, b) => a % b;
-
 const operate = function(operator, a, b) {
   a = Number(a);
   b = Number(b);
@@ -34,9 +31,9 @@ const operate = function(operator, a, b) {
   }
 }
 
-let firstOperand;
-let secondOperand;
-let operator;
+let firstOperand = null;
+let secondOperand = null;
+let operator = null;
 let keyType;
 let waitingForSecondOperand = false;
 let checkOperator = false;
@@ -47,9 +44,6 @@ let checkOperator = false;
     const action = key.dataset.action;
     const content = key.textContent
     const display = output.textContent
-      // if(!action) { 
-      //   display === '0' || checkOperation === true ? output.textContent = content : output.textContent = display + content;
-      // }
       if(!action) { 
         if (waitingForSecondOperand === true) {
           output.textContent = content;
@@ -73,6 +67,8 @@ let checkOperator = false;
         firstOperand = null;
         secondOperand = null;
         waitingForSecondOperand = false;
+        checkOperator = false;
+        operator = null;
         console.log(waitingForSecondOperand, firstOperand, secondOperand);
         
       }
@@ -86,18 +82,24 @@ let checkOperator = false;
           action === 'divide' ||
           action === 'modulo' 
         ) {
-          if (operator && waitingForSecondOperand) {
 
+          
+          if (operator !== null) {
+            secondOperand = display;
+            console.log(firstOperand, operator, secondOperand, waitingForSecondOperand, checkOperator);
+            checkOperator = false;
+            output.textContent = operate(operator, firstOperand, secondOperand);
           }
           waitingForSecondOperand = true;
           operator = content;
+          checkOperator = true;
           firstOperand = display;
-          console.log(firstOperand, operator);
+          console.log(firstOperand, operator, secondOperand, waitingForSecondOperand, checkOperator);
+          
         }
 
         if (action === 'equal') {
           secondOperand = display;
-          
           output.textContent = operate(operator, firstOperand, secondOperand);
           operator = null;
           console.log(operate(operator, firstOperand, secondOperand));
@@ -105,9 +107,5 @@ let checkOperator = false;
   }
 })
 
-const screenReset = function() {
-  output.textContent = "";
-  checkOperator = false;
-}
 
 console.log("hello")
